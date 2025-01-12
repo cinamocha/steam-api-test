@@ -11,6 +11,8 @@ db.sqlite3
 venv/
 .env
 
+.env
+
 # IDE関連
 .vscode/
 .idea/
