@@ -1,0 +1,215 @@
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* 背景として配置 */
+  top: 0;
+  left: 0;
+}
+
+body {
+  font-family: 'Josefin Sans', sans-serif;
+  background: linear-gradient(135deg, #C0A4FB, #F4B3E2, #FFD3B6, #FFEE93);
+  background-size: 400% 400%;
+  animation: pastelBG 15s ease infinite; 
+  color: #1C1C1C;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 75px;
+  color: #1C1C1C; /* ロゴの色 */
+  text-decoration: none;
+  top: 20px;
+  left: 20px;
+}
+
+.nav-links a {
+  margin-left: 5px;
+  margin-right: 15px;
+  font-size: 20px;
+  color: #666;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #faa2de; /* ホバー時の色 */
+}
+
+.profile-container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 30px;
+  background: linear-gradient(135deg, #fff , #FFDDC1 , #FFE0B5);
+  background-size: 300% 300%;
+  animation: pastelBG 15s ease infinite;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-content {
+  display: flex; /* 新規追加 */
+  flex-wrap: wrap;
+  gap: 3px; /* 各要素の余白 */
+  align-items: center; /* センター揃え */
+  justify-content: space-around;  /* 要素間のスペースを均等に */
+  margin: 0 auto; /* 左右のマージンを自動調整 */
+  animation: fade-in 1s ease-in-out;  /* フェードインアニメーション */
+}
+
+.profile-avatar {
+  width: 230px;
+  height: 230px;
+  border-radius: 50%; /* 丸くする */
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  border: 3px solid #f77cb8;
+  border-radius: 50%; /* 丸くする */
+  object-fit: cover; /* 画像を中央に表示 */
+  transition: transform 0.3s ease;
+}
+
+.profile-avatar img:hover {
+  transform: scale(1.15); /* 拡大表示 */
+}
+
+.profile-details{
+  flex: 1;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.profile-header h2 {
+  margin: 0;
+  font-size: 30px;
+  color: #333;
+}
+
+.profile-header p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: space-evenly;  /* 要素間のスペースを均等に */
+  margin: 30px 0;
+  gap: 30px;
+}
+
+.profile-stats div {
+  text-align: center;
+}
+
+.stats-value {
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+}
+
+.stats-label {
+  font-size: 16px;
+  color: #666;
+}
+
+.profile-actions {
+  display: flex; 
+  flex-wrap: wrap;  /* 要素を折り返す */
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;  /* 要素間のスペース */
+  margin-top: 15px; /* 上部からのマージン */
+}
+
+.profile-actions .btn {
+  padding: 12px 25px;
+  background-color: #faa2de;
+  color: white;
+  flex-direction: column;
+  text-decoration: none;
+  border: 2px solid #1C1C1C;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.profile-actions .btn:hover {
+  background-color: #f77cb8;
+}
+
+.error-message {
+  color: #ff6b6b;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  background-color: #615E9B;
+  color: #1C1C1C;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+footer p {
+  margin: 0;
+}
+
+footer:after {
+  content: "#2025 Steazia";  /* フッターにテキストを追加 */
+  display: block; /* ブロック要素に変更 */
+  margin-top: 10px; /* 上部からのマージンを追加 */
+  font-size: 12px;  /* テキストサイズを調整 */
+} 
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1s forwards;
+}
+
+@media (max-width: 768px) {
+  .profile-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-avatar img {
+    margin: 0 auto;
+  }
+
+  .profile-stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

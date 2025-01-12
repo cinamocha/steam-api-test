@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steazia</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.13/fullpage.min.css">
+</head>
+<body>
+  <div id="particles-js"></div>
+  <header class="header">
+    <div class="logo">Steazia</div>
+    <nav class="nav-links">
+      <a href="#">HELP</a>
+      <a href="#">ABOUT</a>
+    </nav>
+  </header>
+  <div id="fullpage">
+    <!-- Section 1 -->
+    <div class="section fade-in">
+      <p>Explore Your Steam Journey!</p>
+      <div class="scroll-indicator">
+        <span>Scroll Down</span>
+        <div class="arrow"></div>
+      </div>
+    </div>
+    
+    <!-- Section 2 -->
+    <div class="section fade-in">
+      <h2>Enter Your Steam ID</h2>
+      <form method="GET" action="{% url 'player_profile' %}">
+        <input type="text" name="steam_id" placeholder="Steam ID" required>
+        <button type="submit">GET</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>❤ Handcrafted with love</p>
+  </footer>
+
+  <script>
+    const nextPageUrl = "{% url 'player_profile' %}";
+  </script>
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.13/fullpage.min.js"></script>
+  <script defer src="{% static 'js/scripts.js' %}"></script>
+  <script src="{% static 'js/particles.min.js' %}"></script>
+</body>
+</html>

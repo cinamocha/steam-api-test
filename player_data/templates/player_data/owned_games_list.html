@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PLAYED GAME</title>
+
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap">
+  <link rel="stylesheet" href="{% static 'css/owned_games_list.css' %}">
+</head>
+<body>
+  <div id="particles-js"></div>
+  <header class="header">
+    <div class="logo">Steazia</div>
+    <nav class="nav-links">
+      <a href="#">HELP</a>
+      <a href="#">ABOUT</a>
+    </nav>
+  </header>
+
+  <div class="games-list-container">
+    {% if error %}
+      <p class="error-message">{{ error }}</p>
+    {% else %}
+      <h3>OWNED GAME LIST</h3>
+      <ul id="games-list">
+        {% for game in owned_games %}
+          <li class="game-item" data-appid="{{ game.appid }}" data-steamid="{{ steam_id }}">
+            {{ game.name }}
+            <div class="achievements" id="achievements-{{ game.appid }}" style="display: none;">
+              <p>IMPORTING...</p>
+              <!-- ここに実績 -->
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <a href="{% url 'player_profile' %}?steam_id={{ steam_id }}" class="btn">BACK</a>
+  </div>
+
+  <footer>
+    <p>❤ Handcrafted with love</p>
+  </footer>
+
+  <script defer src="{% static 'js/owned_games_list.js' %}"></script>
+  <script src="{% static 'js/particles.min.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>プレイしたゲーム一覧</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+      /* body全体の設定 */
+      body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #121212;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        height: auto; /* ここをautoに変更 */
+        flex-direction: column;
+        overflow: auto; /* はみ出した場合、スクロールできるように設定 */
+      }
+
+      h1 {
+        font-size: 36px;
+        color: #00bcd4;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        font-size: 28px;
+        color: #fff;
+        margin-bottom: 15px;
+      }
+
+      /* 円グラフの設定 */
+      canvas {
+        margin-top: 20px;
+        border-radius: 8px;
+        width: 80%;  /* サイズ調整 */
+        height: 400px; /* 高さ調整 */
+      }
+
+      /* テーブルの設定 */
+      table {
+        width: 80%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #1e1e1e;
+        border-radius: 8px;
+      }
+
+      th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: center;
+      }
+
+      th {
+        background-color: #333;
+        color: #00bcd4;
+      }
+
+      tr:nth-child(even) {
+        background-color: #2b2b2b;
+      }
+
+      tr:hover {
+        background-color: #444;
+      }
+
+      /* ボタンの設定 */
+      button {
+        padding: 12px;
+        border: none;
+        background-color: #00bcd4;
+        color: #fff;
+        font-size: 18px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #0288d1;
+      }
+
+      /* 戻るボタンの設定 */
+      .back-button {
+        margin-top: 20px;
+        padding: 12px 24px;
+        background-color: #00bcd4;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+
+      .back-button:hover {
+        background-color: #0288d1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>プレイしたゲーム一覧</h1>
+
+    <!-- 円グラフ表示 -->
+    <canvas id="pie-chart"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Djangoからデータを受け取る
+      const labels = [{% for game in game_info %}'{{ game.name }}',{% endfor %}];
+      const data = [{% for game in game_info %}{{ game.playtime }},{% endfor %}];
+
+      // デバッグ用コンソール出力
+      console.log("Labels:", labels);
+      console.log("Data:", data);
+
+      // 円グラフ描画
+      const ctx = document.getElementById('pie-chart').getContext('2d');
+      if (ctx) {
+        new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: labels,
+            datasets: [{
+              data: data,
+              backgroundColor: [
+                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', 
+                '#FF9F40', '#FF6F61', '#F0E68C', '#ADD8E6', '#90EE90'
+              ],
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: 'top' },
+            },
+          },
+        });
+      } else {
+        console.error('Canvas not found!');
+      }
+    </script>
+
+    <!-- プレイ時間のテーブル表示 -->
+    <h2>プレイ時間の詳細</h2>
+    <table id="game-table">
+      <thead>
+        <tr>
+          <th data-column="name" data-order="asc">ゲーム名</th>
+          <th data-column="playtime" data-order="desc">プレイ時間 (分)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for game in game_info %}
+          <tr>
+            <td>{{ game.name }}</td>
+            <td>{{ game.playtime|floatformat:2 }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+    <!-- 合計プレイ時間 -->
+    <p style="text-align: center; margin-top: 20px;">
+      合計プレイ時間: {{total_playtime }}分
+    </p>
+
+    <a href="{% url 'home' %}" class="back-button">ホームに戻る</a>
+
+    <script>
+      // テーブルの並び替え
+      document.querySelectorAll("th").forEach(header => {
+        header.addEventListener("click", () => {
+          const table = document.getElementById("game-table");
+          const tbody = table.querySelector("tbody");
+          const rows = Array.from(tbody.querySelectorAll("tr"));
+          const column = header.getAttribute("data-column");
+          const order = header.getAttribute("data-order");
+
+          const columnIndex = Array.from(header.parentNode.children).indexOf(header);
+
+          const sortedRows = rows.sort((a, b) => {
+            const aText = a.children[columnIndex].innerText;
+            const bText = b.children[columnIndex].innerText;
+
+            if (column === "playtime") {
+              return order === "asc"
+                ? parseFloat(aText) - parseFloat(bText)
+                : parseFloat(bText) - parseFloat(aText);
+            } else {
+              return order === "asc"
+                ? aText.localeCompare(bText)
+                : bText.localeCompare(aText);
+            }
+          });
+
+          // 並び替えた行をテーブルに追加し直す
+          tbody.innerHTML = "";
+          sortedRows.forEach(row => tbody.appendChild(row));
+
+          // 並び替え順を反転
+          header.setAttribute("data-order", order === "asc" ? "desc" : "asc");
+        });
+      });
+    </script>
+  </body>
+</html>
+

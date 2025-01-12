@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Achievement Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1a1a1a;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #00baff;
+    }
+    .achievement-list {
+      list-style-type: none;
+      padding: 0;
+    }
+    .achievement-item {
+      background-color: #2a2a2a;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+    }
+    .achievement-item h3 {
+      color: #ffcc00;
+      margin: 0;
+    }
+    .achievement-item p {
+      margin: 5px 0;
+    }
+    .icon {
+      max-width: 50px;
+      display: block;
+      margin-top: 10px;
+    }
+    .status {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  {% for game in games %}
+    <div class="game">
+        <h3 onclick="toggleAchievements({{ game.appid }})">{{ game.name }}</h3>
+        <div id="achievements_{{ game.appid }}" style="display:none;">
+            <ul id="achievement_list_{{ game.appid }}"></ul>
+        </div>
+    </div>
+{% endfor %}
+
+<script>
+  function toggleAchievements(appid) {
+      const achievementsDiv = document.getElementById(`achievements_${appid}`);
+      const achievementList = document.getElementById(`achievement_list_${appid}`);
+      
+      // アコーディオンの表示・非表示
+      if (achievementsDiv.style.display === "none") {
+          achievementsDiv.style.display = "block";
+          
+          // 実績をロードして表示
+          fetch(`/get_achievements/${appid}/`)
+              .then(response => response.json())
+              .then(data => {
+                  // 取得した実績を表示
+                  let achievementsHTML = "";
+                  data.achievements.forEach(achievement => {
+                      achievementsHTML += `<li>${achievement.name} - ${achievement.achieved ? '達成' : '未達成'}</li>`;
+                  });
+                  achievementList.innerHTML = achievementsHTML;
+              })
+              .catch(err => {
+                  achievementList.innerHTML = "実績を取得できませんでした。";
+              });
+      } else {
+          achievementsDiv.style.display = "none";
+      }
+  }
+  </script>
+</body>
+</html>

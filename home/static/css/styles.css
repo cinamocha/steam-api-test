@@ -1,0 +1,200 @@
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* 背景として配置 */
+  top: 0;
+  left: 0;
+}
+
+body {
+  font-family: 'Josefin Sans', sans-serif;
+  background: linear-gradient(135deg, #C0A4FB, #F4B3E2, #FFD3B6, #FFEE93);
+  background-size: 400% 400%;
+  animation: pastelBG 15s ease infinite; 
+  color: #1C1C1C;
+  margin: 0;
+  padding: 0;
+  overflow: auto; /* Hide scrollbar */
+}
+
+/* Header Styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 75px;
+  color: #1C1C1C; /* ロゴの色 */
+  text-decoration: none;
+  top: 20px;
+  left: 20px;
+}
+
+.nav-links a {
+  margin-left: 5px;
+  margin-right: 15px;
+  font-size: 20px;
+  color: #666;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #faa2de; /* ホバー時の色 */
+}
+
+/* Section Styles */
+.section {
+  display: flex;  /* フレックスボックスを使用 */
+  justify-content: center;  /* 中央に配置 */
+  align-items: center;  /* 中央に配置 */
+  flex-direction: column; /* 縦方向に並べる */
+  height: 100vh;  /* 画面の高さいっぱいに表示 */
+  position: relative; /* 相対位置に変更 */
+}
+
+.section p {
+  text-align: center; /* テキストを中央に */
+  font-size: 42px; /* テキストサイズを調整 */
+  height: 300px; /* 高さを指定 */
+}
+
+h2 {
+  font-size: 24px;
+  text-align: center;
+}
+
+/* Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0px;
+}
+
+form input {
+  padding: 15px;
+  font-size: 18px;
+  border: 2px solid #1C1C1C;
+  border-radius: 5px;
+  width: 300px;
+  margin-bottom: 30px;
+}
+
+form button {
+  padding: 15px 30px; /* ボタンのパディングを調整 */
+  background-color: #F4B3E2;  /* ボタンの背景色を変更 */
+  color: #1C1C1C; /* ボタンのテキストカラーを変更 */
+  font-size: 18px;  /* ボタンのテキストサイズを調整 */
+  font-family: 'Josefin Sans', sans-serif;
+  border: 2px solid #1C1C1C;
+  border-radius: 8px; /* 角丸にする */
+  cursor: pointer;  /* マウスオーバー時にカーソルを変更 */
+  transform: scale(1.02); /* マウスホバー時に少し大きくする */
+  transition: transform 0.3s ease; /* アニメーション効果を追加 */
+  overflow: hidden; /* ボタンの中のテキストがはみ出ないように */
+  margin-bottom: 150px;
+  z-index: 1;
+}
+
+form button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(120deg, #C0A4FB, #F4B3E2, #B4E1FA);
+  z-index: -1;
+  transition: 0.3s ease;
+}
+
+form button:hover::before {
+  left: 0;
+}
+
+form button:hover {
+  color: #1C1C1C;
+  box-shadow: 0 0 8px 4px #C0A4FB;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute; /* 絶対位置に変更 */
+  bottom: 200px; /* 下部からの距離を指定 */
+  left: 50%;  /* 中央に配置 */
+  transform: translateX(-50%);  /* 中央に移動 */
+  text-align: center; /* テキストを中央に */
+}
+
+.scroll-indicator .arrow {
+  margin: 10px auto;  /* 上下左右のマージンを追加 */
+  width: 20px;  /* 幅を指定 */
+  height: 20px; /* 高さを指定 */
+  border-right: 3px solid #1C1C1C;  /* 右側の線を追加 */
+  border-bottom: 3px solid #1C1C1C; /* 下側の線を追加 */
+  animation: bounce 1s infinite;  /* アニメーションを追加 */
+}
+
+/* オブジェクトが画面に表示される際のフェードイン効果 */
+.fade-in {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
+
+footer {
+  text-align: center; /* テキストを中央に */
+  padding: 15px;  /* パディングを追加 */
+  background-color: #615E9B; /* 色変更 */
+  color: #1C1C1C; /* テキストカラー変更 */
+  position: fixed;  /* 画面下部に固定 */
+  bottom: 0;  /* 下部に固定 */
+  width: 100%;  /* 横幅を100%に */
+}
+
+footer p {
+  margin: 0;  /* マージンを削除 */
+}
+
+footer:after {
+  content: "#2025 Steazia";  /* フッターにテキストを追加 */
+  display: block; /* ブロック要素に変更 */
+  margin-top: 10px; /* 上部からのマージンを追加 */
+  font-size: 12px;  /* テキストサイズを調整 */
+} 
+
+@keyframes bounce {
+  0%, 100% {
+      transform: translateY(0) rotate(45deg);
+  }
+  50% {
+      transform: translateY(10px) rotate(45deg);
+  }
+}
+
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  header nav {
+    position: static;
+    margin-top: 10px;
+  }
+
+  form input, 
+  form button {
+    width: 90%; /* 小さい画面でフォームが広がりすぎないように */
+  }
+}

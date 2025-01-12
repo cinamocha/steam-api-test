@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.env
+
+# Django関連
+db.sqlite3
+*.log
+/media/
+
+# バーチャル環境関連
+venv/
+.env
+
+# IDE関連
+.vscode/
+.idea/

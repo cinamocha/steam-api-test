@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+  <h1>Login</h1>
+    {% if error %}
+      <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <label for="username">Username:</label>
+      <input type="text" name="username" required>
+      <label for="password">Password:</label>
+      <input type="password" name="password" required>
+      <button type="submit">Login</button>
+    </form>
+  <a href="{% url 'steam_login' %}">
+    <img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" alt="Sign in through Steam">
+  </a>
+</body>
+</html>

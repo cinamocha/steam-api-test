@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Steam Player Info</title>
+  
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap">
+  <link rel="stylesheet" href="{% static 'css/player_profile.css' %}">
+</head>
+<body>
+  <div id="particles-js"></div>
+  <header class="header">
+    <div class="logo">Steazia</div>
+    <nav class="nav-links">
+      <a href="#">HELP</a>
+      <a href="#">ABOUT</a>
+    </nav>
+  </header>
+
+  <div class="profile-container fade-in">
+
+    <h1>PROFILE</h1>
+
+    {% if play_info %}
+      <div class="profile-content">
+        <div class="profile-avatar">
+          <a href="{{ play_info.profileurl }}" target="_blank">
+            <img src="{{ play_info.avatarfull }}" alt="Avatar">
+          </a>
+        </div>
+        <div class="profile-details">
+          <div class="profile-header">
+            <h2>{{ play_info.personaname }}</h2>
+            <p>ID: {{ play_info.steamid }}</p>
+          </div>
+          <div class="profile-stats">
+            <div>
+              <span class="stats-value">123</span>
+              <span class="stats-label">Games</span>
+            </div>
+            <div>
+              <span class="stats-value">456</span>
+              <span class="stats-label">Hours</span>
+            </div>
+            <div>
+              <span class="stats-value">789</span>
+              <span class="stats-label">Achievements</span>
+            </div>
+          </div>
+
+          <div class="profile-actions">
+            <a href="{{ play_info.profileurl }}" target="_blank" class="btn">STEAM</a>
+            <a href="{% url 'owned_games_list' steam_id=steam_id %}" class="btn">PLAYED GAMES</a>
+            <a href="{{ player_time_url }}" class="btn">PLAYED TIME</a>
+          </div>
+        </div>
+      </div>
+      {% else %}
+        <p class="error-message">プレイヤー情報が見つかりませんでした。</p>
+      {% endif %}
+    </div>
+
+  <footer>
+    <p>❤ Handcrafted with love</p>
+  </footer>
+
+  <script defer src="{% static 'js/player_profile.js' %}"></script>
+  <script src="{% static 'js/particles.min.js' %}"></script>
+</body>
+</html>
